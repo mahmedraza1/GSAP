@@ -1,9 +1,102 @@
 {
   "projects": [
     {
-      "folderName": "Basics and Timeline",
-      "title": "Basics and Timeline",
-      "description": "Learn the fundamentals of GSAP animations and timeline controls"
+      "name": "Mark Maverick",
+      "description": "Learn the fundamentals of GSAP animations and timeline controls",
+      "category": "Advanced",
+      "difficulty": "Advanced",
+      "technologies": ["GSAP", "HTML", "CSS"],
+      "features": [
+        "Basic tweening",
+        "Timeline control",
+        "Easing functions",
+        "Property animations"
+      ],
+      "lastUpdated": "2025-01-15"
+    },
+    {
+      "name": "Basics and Timeline",
+      "description": "Learn the fundamentals of GSAP animations and timeline controls",
+      "category": "Basics",
+      "difficulty": "Beginner",
+      "technologies": ["GSAP", "HTML", "CSS"],
+      "features": [
+        "Basic tweening",
+        "Timeline control",
+        "Easing functions",
+        "Property animations"
+      ],
+      "lastUpdated": "2025-01-15"
+    },
+    {
+      "name": "ScrollTrigger Animations",
+      "description": "Advanced scroll-triggered animations with GSAP ScrollTrigger",
+      "category": "Advanced",
+      "difficulty": "Intermediate",
+      "technologies": ["GSAP", "ScrollTrigger", "JavaScript"],
+      "features": [
+        "Scroll-based animations",
+        "Parallax effects",
+        "Pin sections",
+        "Refresh handling"
+      ],
+      "lastUpdated": "2025-01-20"
+    },
+    {
+      "name": "Text Animations",
+      "description": "Creative text animations and typography effects",
+      "category": "Typography",
+      "difficulty": "Beginner",
+      "technologies": ["GSAP", "CSS", "JavaScript"],
+      "features": [
+        "Text reveal",
+        "Character animations",
+        "Word splitting",
+        "Typewriter effects"
+      ],
+      "lastUpdated": "2025-01-18"
+    },
+    {
+      "name": "Morphing Shapes",
+      "description": "SVG morphing and shape animations",
+      "category": "SVG",
+      "difficulty": "Advanced",
+      "technologies": ["GSAP", "SVG", "MorphSVG"],
+      "features": [
+        "Path morphing",
+        "Shape transitions",
+        "Draw SVG",
+        "Complex animations"
+      ],
+      "lastUpdated": "2025-01-22"
+    },
+    {
+      "name": "3D Transforms",
+      "description": "3D transformations and perspective animations",
+      "category": "3D",
+      "difficulty": "Intermediate",
+      "technologies": ["GSAP", "CSS3", "JavaScript"],
+      "features": [
+        "3D rotations",
+        "Perspective effects",
+        "Card flips",
+        "Cube animations"
+      ],
+      "lastUpdated": "2025-01-25"
+    },
+    {
+      "name": "Loading Animations",
+      "description": "Creative loading screens and progress indicators",
+      "category": "UI/UX",
+      "difficulty": "Beginner",
+      "technologies": ["GSAP", "CSS", "JavaScript"],
+      "features": [
+        "Progress bars",
+        "Spinners",
+        "Skeleton loading",
+        "Morphing loaders"
+      ],
+      "lastUpdated": "2025-01-28"
     }
   ]
 }

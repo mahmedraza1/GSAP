@@ -3,63 +3,310 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GSAP Learning Hub - Mark Maverick</title>
+    <title>GSAP Learning Hub - Interactive Archive</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#10b981',
+                        secondary: '#3b82f6',
+                        accent: '#8b5cf6',
+                        dark: '#0f172a',
+                        card: '#1e293b',
+                        'card-secondary': '#334155',
+                        'text-primary': '#ffffff',
+                        'text-secondary': '#e2e8f0',
+                        'text-muted': '#94a3b8',
+                        'border-custom': '#475569',
+                    },
+                    fontFamily: {
+                        'inter': ['Inter', 'sans-serif'],
+                    },
+                    backgroundImage: {
+                        'gradient-primary': 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+                        'gradient-secondary': 'linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)',
+                        'gradient-dark': 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)',
+                    },
+                    boxShadow: {
+                        'primary': '0 2px 8px rgba(16, 185, 129, 0.15)',
+                        'secondary': '0 2px 8px rgba(0, 0, 0, 0.1)',
+                        'card': '0 4px 16px rgba(0, 0, 0, 0.1)',
+                    },
+                    backdropBlur: {
+                        'xl': '20px',
+                    }
+                }
+            }
+        }
+    </script>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
-<body>
-    <div class="container">
-        <header class="header">
-            <div class="logo">
-                <span class="logo-text">GSAP</span>
-                <span class="logo-subtitle">Learning Hub</span>
+<body class="font-inter bg-dark text-text-primary leading-relaxed overflow-x-hidden min-h-screen">
+    <div class="app min-h-screen flex flex-col">
+        <!-- Loading Screen -->
+        <div class="loading-screen fixed inset-0 bg-dark flex items-center justify-center z-50 transition-opacity duration-500" id="loadingScreen">
+            <div class="text-center">
+                <div class="loader w-16 h-16 border-4 border-border-custom border-t-primary rounded-full animate-spin mx-auto mb-4"></div>
+                <p class="text-text-secondary">Loading GSAP Hub...</p>
             </div>
-            <div class="author">
-                <span>by Mark Maverick</span>
-            </div>
-        </header>
+        </div>
 
-        <main class="main">
-            <section class="hero">
-                <h1 class="hero-title">
-                    <span class="title-line">Master</span>
-                    <span class="title-line highlight">GSAP</span>
-                    <span class="title-line">Animations</span>
-                </h1>
-                <p class="hero-description">
-                    A collection of GSAP learning projects and practice exercises
-                </p>
+        <!-- Navigation -->
+        <nav class="bg-card/95 backdrop-blur-xl border-b border-border-custom sticky top-0 z-40 py-4">
+            <div class="max-w-7xl mx-auto px-8 flex justify-between items-center">
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 bg-gradient-primary rounded-xl flex items-center justify-center text-xl text-white shadow-primary brand-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="text-xl font-black text-text-primary leading-none">GSAP</span>
+                        <span class="text-sm text-text-secondary font-medium">Learning Hub</span>
+                    </div>
+                </div>
+                
+                <div class="flex items-center gap-8">
+                    <div class="flex items-center gap-4">
+                        <img id="profilePicture" class="w-11 h-11 rounded-full border-2 border-primary object-cover" alt="Profile Picture">
+                        <div class="flex flex-col">
+                            <span class="text-base font-semibold text-text-primary leading-none" id="profileName">Loading...</span>
+                            <span class="text-sm text-text-secondary font-medium" id="profileUsername">@loading...</span>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center gap-4">
+                        <a href="https://github.com/mahmedraza1/GSAP" target="_blank" class="flex items-center gap-2 px-6 py-3 bg-card border border-border-custom rounded-lg text-text-primary no-underline font-medium hover:bg-border-custom hover:-translate-y-0.5 transition-all duration-300" id="githubBtn">
+                            <i class="fab fa-github"></i>
+                            <span>Repository</span>
+                        </a>
+                        <button class="flex items-center gap-2 px-6 py-3 bg-gradient-primary rounded-lg text-white font-semibold cursor-pointer hover:-translate-y-0.5 transition-all duration-300 shadow-primary" id="starBtn">
+                            <i class="fas fa-star"></i>
+                            <span id="starCount">0</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="flex-1 py-8">
+            <!-- Hero Section -->
+            <section class="relative px-8 py-24 text-center overflow-hidden bg-gradient-dark rounded-3xl mx-8 mb-16">
+                <div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(16,185,129,0.03)_0%,transparent_70%)]"></div>
+                <div class="hero-particles absolute inset-0 opacity-20"></div>
+                <div class="relative z-10 max-w-4xl mx-auto">
+                    <h1 class="text-5xl md:text-8xl font-black mb-8 leading-tight">
+                        <span class="title-word inline-block mr-2">Master</span>
+                        <span class="title-word accent inline-block mr-2 bg-gradient-primary bg-clip-text text-transparent">GSAP</span>
+                        <span class="title-word inline-block">Animations</span>
+                    </h1>
+                    <p class="text-xl text-text-secondary mb-12 font-normal">
+                        Explore a curated collection of GSAP projects and interactive examples
+                    </p>
+                    <div class="flex justify-center gap-12 flex-wrap">
+                        <div class="text-center">
+                            <span class="block text-4xl font-black text-primary leading-none" id="heroProjectCount">0</span>
+                            <span class="text-sm text-text-secondary uppercase tracking-wider font-medium">Projects</span>
+                        </div>
+                        <div class="text-center">
+                            <span class="block text-4xl font-black text-primary leading-none" id="heroStarCount">0</span>
+                            <span class="text-sm text-text-secondary uppercase tracking-wider font-medium">Stars</span>
+                        </div>
+                        <div class="text-center">
+                            <span class="block text-4xl font-black text-primary leading-none">∞</span>
+                            <span class="text-sm text-text-secondary uppercase tracking-wider font-medium">Possibilities</span>
+                        </div>
+                    </div>
+                </div>
             </section>
 
-            <section class="projects">
-                <h2 class="section-title">Practice Projects</h2>
-                <div class="projects-grid" id="projectsGrid">
+            <!-- Projects Section -->
+            <section class="px-8 mb-16">
+                <div class="flex justify-between items-center mb-12">
+                    <h2 class="text-3xl font-bold text-text-primary flex items-center gap-4">
+                        <i class="fas fa-code text-primary"></i>
+                        Practice Projects
+                    </h2>
+                    <div class="flex gap-4">
+                        <button class="p-3 bg-card border border-border-custom rounded-lg text-text-primary cursor-pointer hover:bg-border-custom hover:-translate-y-0.5 transition-all duration-300" id="viewToggle">
+                            <i class="fas fa-th-large"></i>
+                        </button>
+                        <button class="p-3 bg-card border border-border-custom rounded-lg text-text-primary cursor-pointer hover:bg-border-custom hover:-translate-y-0.5 transition-all duration-300" id="refreshBtn">
+                            <i class="fas fa-refresh"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8" id="projectsGrid">
                     <!-- Projects will be dynamically loaded here -->
                 </div>
+                
+                <div class="text-center py-12 text-text-secondary" id="projectsLoading">
+                    <div class="w-10 h-10 border-4 border-border-custom border-t-primary rounded-full animate-spin mx-auto mb-4"></div>
+                    <p>Loading projects...</p>
+                </div>
             </section>
 
-            <section class="stats">
-                <div class="stat-card">
-                    <div class="stat-number" id="projectCount">0</div>
-                    <div class="stat-label">Projects</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number" id="totalFiles">0</div>
-                    <div class="stat-label">Files</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">∞</div>
-                    <div class="stat-label">Animations</div>
+            <!-- Stats Section -->
+            <section class="py-16 bg-card rounded-3xl mx-8 mb-16">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto px-8">
+                    <div class="stat-card bg-card-secondary border border-border-custom rounded-2xl p-8 text-center transition-all duration-300 hover:-translate-y-1 hover:shadow-card relative overflow-hidden group">
+                        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-primary scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
+                        <div class="w-16 h-16 bg-primary/10 border border-primary/20 rounded-2xl flex items-center justify-center mx-auto mb-4 text-primary">
+                            <i class="fas fa-folder-open text-xl"></i>
+                        </div>
+                        <div class="text-4xl font-black text-text-primary leading-none mb-2" id="totalProjects">0</div>
+                        <div class="text-base text-text-secondary font-medium">Total Projects</div>
+                    </div>
+                    
+                    <div class="stat-card bg-card-secondary border border-border-custom rounded-2xl p-8 text-center transition-all duration-300 hover:-translate-y-1 hover:shadow-card relative overflow-hidden group">
+                        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-primary scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
+                        <div class="w-16 h-16 bg-secondary/10 border border-secondary/20 rounded-2xl flex items-center justify-center mx-auto mb-4 text-secondary">
+                            <i class="fas fa-file-code text-xl"></i>
+                        </div>
+                        <div class="text-4xl font-black text-text-primary leading-none mb-2" id="totalFiles">0</div>
+                        <div class="text-base text-text-secondary font-medium">Files Created</div>
+                    </div>
+                    
+                    <div class="stat-card bg-card-secondary border border-border-custom rounded-2xl p-8 text-center transition-all duration-300 hover:-translate-y-1 hover:shadow-card relative overflow-hidden group">
+                        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-primary scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
+                        <div class="w-16 h-16 bg-accent/10 border border-accent/20 rounded-2xl flex items-center justify-center mx-auto mb-4 text-accent">
+                            <i class="fas fa-magic text-xl"></i>
+                        </div>
+                        <div class="text-4xl font-black text-text-primary leading-none mb-2">∞</div>
+                        <div class="text-base text-text-secondary font-medium">Animations</div>
+                    </div>
+                    
+                    <div class="stat-card bg-card-secondary border border-border-custom rounded-2xl p-8 text-center transition-all duration-300 hover:-translate-y-1 hover:shadow-card relative overflow-hidden group">
+                        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-primary scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
+                        <div class="w-16 h-16 bg-yellow-500/10 border border-yellow-500/20 rounded-2xl flex items-center justify-center mx-auto mb-4 text-yellow-500">
+                            <i class="fas fa-star text-xl"></i>
+                        </div>
+                        <div class="text-4xl font-black text-text-primary leading-none mb-2" id="repoStars">0</div>
+                        <div class="text-base text-text-secondary font-medium">GitHub Stars</div>
+                    </div>
                 </div>
             </section>
         </main>
 
-        <footer class="footer">
-            <p>&copy; 2025 Mark Maverick - GSAP Learning Journey</p>
+        <!-- Footer -->
+        <footer class="bg-card border-t border-border-custom py-12 px-8">
+            <div class="max-w-6xl mx-auto">
+                <!-- Main Footer Content -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+                    <!-- About Section -->
+                    <div class="lg:col-span-2">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-10 h-10 bg-gradient-primary rounded-lg flex items-center justify-center text-white">
+                                <i class="fas fa-bolt text-lg"></i>
+                            </div>
+                            <h3 class="text-text-primary text-xl font-bold">GSAP Learning Hub</h3>
+                        </div>
+                        <p class="text-text-secondary leading-relaxed mb-4">
+                            An interactive archive of GSAP animations and projects. Learn, explore, and master the art of web animations with professional examples and hands-on practice.
+                        </p>
+                        <div class="flex items-center gap-4">
+                            <a href="https://github.com/mahmedraza1/GSAP" target="_blank" class="flex items-center gap-2 px-4 py-2 bg-gradient-primary rounded-lg text-white font-semibold hover:-translate-y-0.5 transition-all duration-300 shadow-primary">
+                                <i class="fas fa-star"></i>
+                                <span>Star Repository</span>
+                            </a>
+                            <span class="text-text-muted text-sm">
+                                <span id="footerStarCount">0</span> stars
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Quick Links -->
+                    <div>
+                        <h4 class="text-text-primary text-base font-semibold mb-4">Quick Links</h4>
+                        <ul class="space-y-3">
+                            <li>
+                                <a href="https://gsap.com" target="_blank" class="text-text-secondary hover:text-primary transition-colors duration-300 flex items-center gap-2">
+                                    <i class="fas fa-external-link-alt text-xs"></i>
+                                    GSAP Official
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://gsap.com/docs" target="_blank" class="text-text-secondary hover:text-primary transition-colors duration-300 flex items-center gap-2">
+                                    <i class="fas fa-book text-xs"></i>
+                                    Documentation
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://github.com/mahmedraza1/GSAP" target="_blank" class="text-text-secondary hover:text-primary transition-colors duration-300 flex items-center gap-2">
+                                    <i class="fab fa-github text-xs"></i>
+                                    GitHub Repository
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://gsap.com/community" target="_blank" class="text-text-secondary hover:text-primary transition-colors duration-300 flex items-center gap-2">
+                                    <i class="fas fa-users text-xs"></i>
+                                    Community
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Connect Section -->
+                    <div>
+                        <h4 class="text-text-primary text-base font-semibold mb-4">Connect With Me</h4>
+                        <div class="space-y-4">
+                            <div class="flex items-center gap-3">
+                                <img id="footerProfilePicture" class="w-10 h-10 rounded-full border-2 border-primary/20 object-cover" alt="Muhammad Ahmed Raza">
+                                <div>
+                                    <div class="text-text-primary font-medium">Muhammad Ahmed Raza</div>
+                                    <div class="text-text-muted text-sm">@mahmedraza1</div>
+                                </div>
+                            </div>
+                            
+                            <div class="flex gap-3">
+                                <a href="https://github.com/mahmedraza1" target="_blank" class="flex items-center justify-center w-10 h-10 bg-card-secondary border border-border-custom rounded-lg text-text-secondary hover:bg-primary hover:text-dark hover:-translate-y-0.5 transition-all duration-300">
+                                    <i class="fab fa-github text-lg"></i>
+                                </a>
+                                <a href="https://linkedin.com/in/mahmedraza1" target="_blank" class="flex items-center justify-center w-10 h-10 bg-card-secondary border border-border-custom rounded-lg text-text-secondary hover:bg-blue-500 hover:text-white hover:-translate-y-0.5 transition-all duration-300">
+                                    <i class="fab fa-linkedin text-lg"></i>
+                                </a>
+                                <a href="mailto:developer.mahmedraza@gmail.com" target="_blank" class="flex items-center justify-center w-10 h-10 bg-card-secondary border border-border-custom rounded-lg text-text-secondary hover:bg-red-500 hover:text-white hover:-translate-y-0.5 transition-all duration-300">
+                                    <i class="fas fa-envelope text-lg"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bottom Footer -->
+                <div class="pt-8 border-t border-border-custom">
+                    <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+                        <div class="text-center md:text-left">
+                            <p class="text-text-muted">
+                                &copy; 2025 Muhammad Ahmed Raza. All rights reserved.
+                            </p>
+                            <p class="text-text-muted text-sm mt-1">
+                                Built with ❤️ using GSAP & Tailwind CSS
+                            </p>
+                        </div>
+                        
+                        <div class="flex items-center gap-4">
+                            <div class="text-text-muted text-sm">
+                                Last updated: <span id="lastUpdated">Loading...</span>
+                            </div>
+                            <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="flex items-center gap-2 px-3 py-2 bg-card-secondary border border-border-custom rounded-lg text-text-secondary hover:bg-border-custom hover:-translate-y-0.5 transition-all duration-300">
+                                <i class="fas fa-arrow-up text-sm"></i>
+                                <span class="text-sm">Back to Top</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </footer>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js" integrity="sha512-NcZdtrT77bJr4STcmsGAESr06BYGE8woZdSdEgqnpqac7sugNO+Tr4bGwGF3MsnEkGKhU2KL2xh6Ec+BqsaHA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
